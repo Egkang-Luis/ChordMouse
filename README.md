@@ -17,9 +17,7 @@ ChordMouse triggers the macOS shortcuts you already use for desktop navigation a
 
 ## Trackpad gesture or ChordMouse — same destination
 
-![Illustrated product demo comparing a two-finger trackpad swipe with a ChordMouse two-button drag](assets/chordmouse-vs-trackpad-demo.gif)
-
-*Illustrated product demo. This animation explains the interaction; it is not a screen recording.*
+*An illustrated interaction demo is being prepared for this page. It explains the interaction and is not a screen recording.*
 
 ## Four directions, four actions
 
