@@ -1,67 +1,63 @@
-# 설치 및 사용 안내
+# Getting started
 
-[← ChordMouse 첫 화면](../README.md)
+[← Back to ChordMouse](../README.md)
 
-## 요구 사항
+## Requirements
 
-- macOS 13 이상
-- Apple Silicon(M 시리즈) Mac — 현재 준비된 빌드 기준
-- 왼쪽·오른쪽 버튼을 동시에 누를 수 있는 마우스
-- 손쉬운 사용 접근 권한
+- macOS 13 or later
+- Apple Silicon Mac (M-series) for the current release build
+- A mouse with left and right buttons
+- Accessibility permission
 
-## 설치
+## Install ChordMouse
 
-현재 v0.1.0 설치 파일은 GitHub Releases에 아직 게시되지 않았습니다. 게시 후 ZIP을 내려받아 압축을 풀고, ChordMouse.app을 응용 프로그램 폴더에 옮겨 실행하세요.
+The v0.1.0 download is not published to GitHub Releases yet. Once it is available, download the ZIP, unzip it, and move ChordMouse.app to your Applications folder.
 
-현재 빌드는 로컬 서명만 적용되어 있고 Apple 공증은 완료되지 않았습니다. 따라서 다운로드한 앱은 macOS 보안 검사에서 실행이 제한될 수 있습니다.
+The current build is locally signed and has not yet received Developer ID signing or Apple notarization. macOS may restrict opening an app downloaded from GitHub.
 
-## 손쉬운 사용 권한
+## Allow Accessibility access
 
-1. 시스템 설정 → 개인정보 보호 및 보안 → 손쉬운 사용을 엽니다.
-2. ChordMouse를 허용합니다. 목록에 없으면 + 버튼으로 응용 프로그램 폴더의 앱을 추가합니다.
-3. 메뉴바 ⇄ → 권한 다시 확인 / 시작을 누릅니다.
-4. 반영되지 않으면 앱을 종료한 뒤 다시 실행합니다.
+1. Open **System Settings → Privacy & Security → Accessibility**.
+2. Allow **ChordMouse**. If it is not listed, click **+** and select ChordMouse.app from Applications.
+3. In the menu bar, select **⇄ → Recheck permission / Start**.
+4. If the change does not take effect, quit and reopen the app.
 
-앱은 마우스 입력을 감지하고 시스템 단축키를 보내기 위해 이 권한을 사용합니다.
+ChordMouse needs this permission to detect mouse input globally and send the configured macOS shortcuts.
 
-## 제스처 사용
+## Use a gesture
 
-두 버튼을 약 230ms 안에 누른 다음, 누른 채 한 방향으로 움직이세요. 한 번 실행한 뒤 두 버튼을 모두 놓아야 다음 제스처가 시작됩니다.
+Press both mouse buttons within about 230 ms, then drag while holding them. Release both buttons before starting the next gesture.
 
-| 방향 | 기본 동작 |
+| Direction | Default action |
 | --- | --- |
-| 왼쪽 | 다음 데스크탑 |
-| 오른쪽 | 이전 데스크탑 |
-| 위 | Mission Control |
-| 아래 | 현재 앱의 윈도우 보기 |
+| Left | Next desktop |
+| Right | Previous desktop |
+| Up | Mission Control |
+| Down | Show windows for the current app |
 
-좌/우 데스크탑 방향 바꾸기는 기본으로 켜져 있습니다. 메뉴에서 끄면 좌우 동작이 바뀝니다.
+**Swap left/right desktop direction** is enabled by default. Turn it off in the menu to reverse the left and right actions.
 
-## 메뉴 설정
+## Menu options
 
-- **일시 정지**: 제스처 사용을 잠시 멈춥니다.
-- **좌/우 데스크탑 방향 바꾸기**: 좌우 이동 방향을 전환합니다.
-- **로그인 시 자동 실행**: Mac 로그인 시 실행합니다. 승인 필요로 표시되면 시스템 설정의 로그인 항목에서 허용합니다.
-- **현재 시스템 단축키 다시 읽기**: macOS 단축키를 변경한 뒤 선택합니다.
+- **Pause**: temporarily disables gestures.
+- **Swap left/right desktop direction**: reverses desktop navigation direction.
+- **Launch at login**: starts ChordMouse when you sign in. If approval is required, allow it in **System Settings → General → Login Items & Extensions**.
+- **Reload current system shortcuts**: use this after changing Mission Control shortcuts in macOS.
 
-## 동작하지 않을 때
+## Troubleshooting
 
-### 마우스 입력이 감지되지 않아요
+### The mouse input is not detected
 
-메뉴의 입력 상태가 두 버튼을 눌렀을 때 바뀌는지 확인하세요. 바뀌지 않으면 손쉬운 사용 권한을 확인하고, 마우스 제조사 앱의 버튼 재매핑이나 다른 제스처 앱과 충돌하는지 확인하세요.
+Check whether the menu input status changes when you hold both buttons. If it does not, verify Accessibility permission and disable mouse-button remapping or other gesture utilities temporarily.
 
-### 제스처는 실행되는데 화면이 움직이지 않아요
+### The gesture triggers, but the desktop does not move
 
-시스템 설정 → 키보드 → 키보드 단축키 → Mission Control에서 해당 단축키가 활성화되어 있는지 확인하세요. 그 단축키를 키보드에서 직접 눌러 동작을 확인한 뒤, 앱에서 현재 시스템 단축키 다시 읽기를 선택하세요. 데스크탑 이동에는 두 개 이상의 데스크탑이 필요합니다.
+Open **System Settings → Keyboard → Keyboard Shortcuts → Mission Control** and make sure the relevant shortcut is enabled. Test it directly from the keyboard, then select **Reload current system shortcuts** in ChordMouse. Desktop navigation also requires at least two desktops.
 
-### 앱을 교체한 뒤 권한이 적용되지 않아요
+### Permission stopped working after replacing the app
 
-앱 재빌드, 서명 또는 위치 변경 뒤에는 손쉬운 사용 목록의 기존 항목을 제거하고 현재 앱을 다시 등록해야 할 수 있습니다.
+After rebuilding, re-signing, or moving the app, remove its previous entry from Accessibility and add the current app again.
 
-### 클릭이 조금 늦게 느껴져요
+### A normal click feels delayed
 
-두 버튼 조합을 기다리기 때문에 첫 버튼 입력이 최대 약 230ms 보류될 수 있습니다. 현재 버전의 동작 특성입니다.
-
-## 제거
-
-메뉴에서 로그인 시 자동 실행을 끄고 앱을 종료한 다음, 응용 프로그램 폴더의 ChordMouse.app을 휴지통으로 옮깁니다.
+ChordMouse waits up to about 230 ms for the second mouse button. This is an expected behavior of the current version.
