@@ -2,68 +2,66 @@
 
 # ChordMouse
 
-### 마우스의 두 버튼으로, Mac을 더 편하게.
+### Navigate your Mac with one mouse gesture.
 
-왼쪽 + 오른쪽 버튼을 함께 누르고 드래그하세요.  
-데스크탑 이동부터 Mission Control까지, 네 방향으로 실행합니다.
+Hold the left and right mouse buttons together, then drag in a direction.  
+ChordMouse triggers the macOS shortcuts you already use for desktop navigation and window management.
 
-**macOS 13+ · Apple Silicon · 메뉴바 앱**
+**macOS 13+ · Apple Silicon · Menu bar app**
 
-[설치 및 사용 안내](docs/GETTING_STARTED.md) · [버전 기록](CHANGELOG.md) · [Releases](https://github.com/Egkang-Luis/ChordMouse/releases)
+[Getting started](docs/GETTING_STARTED.md) · [Changelog](CHANGELOG.md) · [Releases](https://github.com/Egkang-Luis/ChordMouse/releases)
 
 </div>
 
 ---
 
-## 두 버튼, 네 방향
+## Trackpad gesture or ChordMouse — same destination
 
-별도의 보조 버튼 없이 왼쪽·오른쪽 버튼을 함께 누른 채 움직이면 됩니다.
+![Illustrated product demo comparing a two-finger trackpad swipe with a ChordMouse two-button drag](assets/chordmouse-vs-trackpad-demo.gif)
 
-| 드래그 방향 | 기본 동작 |
+*Illustrated product demo. This animation explains the interaction; it is not a screen recording.*
+
+## Four directions, four actions
+
+| Drag direction | Default action |
 | :---: | --- |
-| ← 왼쪽 | 다음 데스크탑 |
-| → 오른쪽 | 이전 데스크탑 |
-| ↑ 위 | Mission Control — 열린 윈도우 보기 |
-| ↓ 아래 | App Exposé — 현재 앱의 윈도우 보기 |
+| ← Left | Next desktop |
+| → Right | Previous desktop |
+| ↑ Up | Mission Control |
+| ↓ Down | App Exposé — show windows for the current app |
 
-기본 설정에서는 **좌/우 데스크탑 방향 바꾸기**가 켜져 있습니다. 메뉴에서 끄면 좌우 동작이 반대로 바뀝니다.
+ChordMouse starts with **Swap left/right desktop direction** enabled. Turn it off in the menu if you prefer the opposite desktop direction.
 
-## Mac의 흐름에 맞게
+## Designed to stay out of the way
 
-- **메뉴바에서 제어** — Dock을 차지하지 않고 시작·일시 정지를 전환합니다.
-- **기존 단축키 사용** — 현재 macOS Mission Control 단축키를 읽어 실행합니다.
-- **로그인 시 자동 실행** — 메뉴에서 켜고 끌 수 있습니다.
-- **방향 전환** — 데스크탑 이동 방향을 취향에 맞게 바꿉니다.
+- Lives in the menu bar and does not appear in the Dock.
+- Uses your current macOS Mission Control keyboard shortcuts.
+- Can launch automatically when you sign in.
+- Lets you pause gestures or swap desktop direction from the menu.
 
-## 다운로드 및 배포 상태
+## Installation
 
-**v0.1.0 첫 배포 준비 중입니다.** 아직 GitHub Releases에 설치 파일이 게시되지 않았습니다.
+**Version 0.1.0 is being prepared.** The downloadable release has not been published yet.
 
-준비된 빌드는 **Apple Silicon(M 시리즈) · macOS 13 이상**용입니다. 현재 빌드는 로컬 서명만 적용되어 있으며, Developer ID 서명과 Apple 공증은 완료되지 않았습니다. 다운로드한 앱은 macOS에서 실행이 제한될 수 있습니다.
+When it is available:
 
-저장소는 현재 **비공개**이며, 접근 권한이 있는 계정만 이 페이지와 배포 자료를 볼 수 있습니다.
+1. Download the ZIP file from [Releases](https://github.com/Egkang-Luis/ChordMouse/releases) and unzip it.
+2. Move **ChordMouse.app** to **Applications**, then open it.
+3. In **System Settings → Privacy & Security → Accessibility**, allow ChordMouse.
+4. Click **⇄ → Recheck permission / Start** in the menu bar.
+5. Press the left and right buttons nearly together, then drag while holding both.
 
-## 시작하기
+Release builds currently target **Apple Silicon Macs running macOS 13 or later**. The first build uses local ad-hoc signing; Developer ID signing and Apple notarization are not complete yet, so macOS may restrict opening the downloaded app.
 
-설치 파일이 게시되면 다음 순서로 사용하세요.
+[Full installation and troubleshooting guide →](docs/GETTING_STARTED.md)
 
-1. Releases에서 ZIP 파일을 받아 압축을 풉니다.
-2. **ChordMouse.app**을 **응용 프로그램** 폴더로 옮긴 뒤 실행합니다.
-3. **시스템 설정 → 개인정보 보호 및 보안 → 손쉬운 사용**에서 ChordMouse를 허용합니다.
-4. 메뉴바의 **⇄ → 권한 다시 확인 / 시작**을 누릅니다.
-5. 왼쪽·오른쪽 버튼을 거의 동시에 누르고, 두 버튼을 누른 채 원하는 방향으로 드래그합니다.
+## Current limitations
 
-다음 제스처를 시작하려면 **두 버튼을 모두 놓으세요.** 데스크탑 이동에는 데스크탑이 두 개 이상 필요합니다.
+- An ordinary click may be delayed by up to about 230 ms while ChordMouse waits to detect a two-button chord.
+- Each gesture sends one shortcut; it does not provide a continuous, inertial desktop swipe.
+- Other mouse remapping or gesture utilities can interfere.
+- An Intel build is not available yet.
 
-[자세한 설정과 문제 해결 →](docs/GETTING_STARTED.md)
+## Feedback
 
-## 현재 알아둘 점
-
-- 일반 클릭 입력에 최대 약 230ms의 대기 시간이 생길 수 있습니다.
-- 손 움직임을 따라 화면이 연속으로 움직이는 방식이 아니라, 방향마다 단축키를 한 번 실행합니다.
-- 다른 마우스 버튼 재매핑 앱과 함께 쓰면 동작이 달라질 수 있습니다.
-- Intel용 배포 파일은 아직 제공하지 않습니다.
-
-## 피드백
-
-문제나 아이디어는 [Issues](https://github.com/Egkang-Luis/ChordMouse/issues)에 남겨주세요. macOS 버전, Mac 종류, 마우스 모델, 재현 순서를 함께 적으면 도움이 됩니다.
+Open an [issue](https://github.com/Egkang-Luis/ChordMouse/issues) with your macOS version, Mac model, mouse model, and the steps that reproduce the problem.
