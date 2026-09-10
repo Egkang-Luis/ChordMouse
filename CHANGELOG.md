@@ -2,6 +2,14 @@
 
 [← Back to ChordMouse](README.md)
 
+## 0.2.1 — Configurable controls and click reliability
+
+- Added per-gesture action selection for drag, held-button click, repeated click, and middle-button scroll inputs.
+- Added back/forward, tabs, media, volume, brightness, zoom, Focus Zoom, undo/redo, Mission Control, App Exposé, and desktop actions.
+- Added launch at login and Korean interface support when macOS uses Korean.
+- Removed the simultaneous two-button double-click action.
+- Fixed a pending click being dropped when macOS reconnects the global input tap.
+
 ## 0.1.0 — Initial release preparation
 
 This entry describes the local v0.1.0 build. The GitHub Release and downloadable app are not published yet.

@@ -60,4 +60,47 @@ enum AppText {
         )
     }
     static var ok: String { choose("확인", "OK") }
+
+    static var gestureSettings: String { choose("제스처별 동작 설정", "Gesture actions") }
+    static var openGestureSettings: String { choose("제스처 설정 열기…", "Open Gesture Settings…") }
+    static var extendedHelp: String { choose("추가 기능 안내…", "Additional controls…") }
+    static func triggerName(_ trigger: GestureTrigger) -> String {
+        switch trigger {
+        case .dragLeft: return choose("두 버튼 드래그 왼쪽", "Both buttons drag left")
+        case .dragRight: return choose("두 버튼 드래그 오른쪽", "Both buttons drag right")
+        case .dragUp: return choose("두 버튼 드래그 위", "Both buttons drag up")
+        case .dragDown: return choose("두 버튼 드래그 아래", "Both buttons drag down")
+        case .leftHoldRightClick: return choose("좌 버튼 유지 + 우 클릭", "Hold left + click right")
+        case .leftHoldRightDoubleClick: return choose("좌 버튼 유지 + 우 더블 클릭", "Hold left + double-click right")
+        case .rightHoldLeftClick: return choose("우 버튼 유지 + 좌 클릭", "Hold right + click left")
+        case .rightHoldLeftDoubleClick: return choose("우 버튼 유지 + 좌 더블 클릭", "Hold right + double-click left")
+        case .leftRightLeftRight: return choose("좌→우→좌→우 빠른 클릭", "Left → Right → Left → Right")
+        case .rightLeftRightLeft: return choose("우→좌→우→좌 빠른 클릭", "Right → Left → Right → Left")
+        case .middleScrollUp: return choose("휠 버튼 유지 + 위 스크롤", "Hold middle + scroll up")
+        case .middleScrollDown: return choose("휠 버튼 유지 + 아래 스크롤", "Hold middle + scroll down")
+        }
+    }
+    static func actionName(_ action: GestureAction) -> String {
+        switch action {
+        case .volumeUp: return choose("볼륨 올리기", "Volume Up")
+        case .volumeDown: return choose("볼륨 내리기", "Volume Down")
+        case .zoomIn: return choose("확대", "Zoom In")
+        case .zoomOut: return choose("축소", "Zoom Out")
+        case .brightnessUp: return choose("밝기 올리기", "Brightness Up")
+        case .brightnessDown: return choose("밝기 내리기", "Brightness Down")
+        case .nextTab: return choose("다음 탭", "Next Tab")
+        case .previousTab: return choose("이전 탭", "Previous Tab")
+        case .nextSpace: return choose("다음 데스크탑", "Next Desktop")
+        case .previousSpace: return choose("이전 데스크탑", "Previous Desktop")
+        case .nextTrack: return choose("다음 트랙", "Next Track")
+        case .previousTrack: return choose("이전 트랙", "Previous Track")
+        case .back: return choose("뒤로 가기", "Back")
+        case .forward: return choose("앞으로 가기", "Forward")
+        case .focusZoom: return choose("Focus Zoom", "Focus Zoom")
+        case .undo: return choose("실행 취소", "Undo")
+        case .redo: return choose("다시 실행", "Redo")
+        case .missionControl: return "Mission Control"
+        case .appExpose: return "App Exposé"
+        }
+    }
 }

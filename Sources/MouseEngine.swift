@@ -8,17 +8,20 @@ final class MouseEngine {
     private var buffered: [CGEvent] = []
     private var recoveringTap = false
     private let marker: Int64 = 0x43484F52444D
-    private let executor: GestureExecutor
+    private let executor: KeyboardGestureExecutor
+    private let settings: GestureSettings
+    private var middleHeld = false
     private(set) var enabled = true
-    var onGesture: ((Direction) -> Void)?
+    var onGesture: ((GestureTrigger, GestureAction) -> Void)?
     /// Short, user-facing input milestones. This makes an event-tap or mouse-hardware
     /// issue distinguishable from a macOS shortcut configuration issue.
     var onInputStatus: ((String) -> Void)?
     var onFailure: (() -> Void)?
     var running: Bool { tap != nil }
 
-    init(executor: GestureExecutor) {
+    init(executor: KeyboardGestureExecutor, settings: GestureSettings) {
         self.executor = executor
+        self.settings = settings
     }
 
     func start() -> Bool {
@@ -41,7 +44,7 @@ final class MouseEngine {
         let tick = Timer(timeInterval: 0.005, repeats: true) { [weak self] _ in
             guard let self else { return }
             let now = ProcessInfo.processInfo.systemUptime
-            if self.recognizer.expire(now: now) { self.flush(proxy: nil) }
+            self.apply(self.recognizer.expire(now: now), proxy: nil)
         }
         timer = tick
         RunLoop.main.add(tick, forMode: .common)
@@ -64,6 +67,7 @@ final class MouseEngine {
         if let tap { CFMachPortInvalidate(tap) }
         source = nil; tap = nil
         recognizer = GestureRecognizer()
+        middleHeld = false
     }
 
     private func flush(proxy: CGEventTapProxy?) {
@@ -80,8 +84,10 @@ final class MouseEngine {
         if type == .tapDisabledByTimeout || type == .tapDisabledByUserInput {
             // A disabled tap may have lost an up event. Drop all in-progress
             // input and rebuild the tap rather than keeping a stale port alive.
+            // Do not lose a normal click that was waiting for a possible
+            // chord when macOS temporarily disables this event tap.
+            flush(proxy: nil)
             recognizer = GestureRecognizer()
-            buffered.removeAll(keepingCapacity: true)
             guard !recoveringTap else { return Unmanaged.passUnretained(event) }
             recoveringTap = true
             DispatchQueue.main.async { [weak self] in
@@ -99,6 +105,21 @@ final class MouseEngine {
         if event.getIntegerValueField(.eventSourceUserData) == marker { return Unmanaged.passUnretained(event) }
         if !enabled && recognizer.idle { return Unmanaged.passUnretained(event) }
         let now = ProcessInfo.processInfo.systemUptime
+        if type == .otherMouseDown, event.getIntegerValueField(.mouseEventButtonNumber) == 2 {
+            middleHeld = true
+            return Unmanaged.passUnretained(event)
+        }
+        if type == .otherMouseUp, event.getIntegerValueField(.mouseEventButtonNumber) == 2 {
+            middleHeld = false
+            return Unmanaged.passUnretained(event)
+        }
+        if type == .scrollWheel, middleHeld {
+            let delta = event.getDoubleValueField(.scrollWheelEventDeltaAxis1)
+            if delta != 0 {
+                fire(delta > 0 ? .middleScrollUp : .middleScrollDown)
+                return nil
+            }
+        }
         let input: MouseInput
         switch type {
         case .leftMouseDown: input = .down(0)
@@ -109,10 +130,16 @@ final class MouseEngine {
             input = .move(event.getDoubleValueField(.mouseEventDeltaX), event.getDoubleValueField(.mouseEventDeltaY))
         default: input = .other
         }
+        // Keep each event that has actually been held back while deciding
+        // whether a second button will form a chord. Chord input is discarded
+        // separately below.
+        let wasWaiting = recognizer.waiting
         let result = recognizer.handle(input, now: now)
-        if result.flush { flush(proxy: proxy) }
-        if result.discard { buffered.removeAll(keepingCapacity: true) }
-        if result.consume && recognizer.waiting, let copy = event.copy() { buffered.append(copy) }
+        if result.consume, !result.discard, wasWaiting || recognizer.waiting,
+           let copy = event.copy() {
+            buffered.append(copy)
+        }
+        apply(result, proxy: proxy)
         if case .down(let button) = input, recognizer.waiting {
             DispatchQueue.main.async { [weak self] in
                 self?.onInputStatus?(AppText.firstButton(button))
@@ -123,13 +150,21 @@ final class MouseEngine {
                 self?.onInputStatus?(AppText.chordDetected)
             }
         }
-        if let direction = result.direction {
-            DispatchQueue.main.async { [weak self] in
-                self?.executor.execute(direction)
-                self?.onGesture?(direction)
-                self?.onInputStatus?(AppText.gestureExecuted(direction))
-            }
-        }
         return result.consume ? nil : Unmanaged.passUnretained(event)
+    }
+
+    private func apply(_ result: Decision, proxy: CGEventTapProxy?) {
+        if result.flush { flush(proxy: proxy) }
+        if result.discard { buffered.removeAll(keepingCapacity: true) }
+        if let trigger = result.trigger { fire(trigger) }
+    }
+
+    private func fire(_ trigger: GestureTrigger) {
+        let action = settings.action(for: trigger)
+        DispatchQueue.main.async { [weak self] in
+            self?.executor.execute(action)
+            self?.onGesture?(trigger, action)
+            self?.onInputStatus?("Input: \(AppText.triggerName(trigger)) → \(AppText.actionName(action))")
+        }
     }
 }
