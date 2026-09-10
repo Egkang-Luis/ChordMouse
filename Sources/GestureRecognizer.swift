@@ -113,7 +113,13 @@ final class GestureRecognizer {
                     waitingRepeat = nil
                     chord = false
                 }
-            } else if pending != nil { pending = nil; result.flush = true }
+            } else if pending != nil {
+                // A normal short click must be replayed as a matching pair.
+                // The engine buffers this mouse-up before flushing the held
+                // mouse-down, instead of mixing a synthetic down with the
+                // original up event.
+                pending = nil; result.consume = true; result.flush = true
+            }
         case .move(let dx, let dy):
             if chord {
                 result.consume = true
@@ -125,7 +131,11 @@ final class GestureRecognizer {
                 }
             } else if pending != nil {
                 x += dx; y += dy
-                if hypot(x, y) >= preChordMovementTolerance { pending = nil; result.flush = true } else { result.consume = true }
+                if hypot(x, y) >= preChordMovementTolerance {
+                    // Replay the current drag with the buffered down event so
+                    // web controls observe one consistent event sequence.
+                    pending = nil; result.consume = true; result.flush = true
+                } else { result.consume = true }
             }
         default:
             if pending != nil { pending = nil; result.flush = true }

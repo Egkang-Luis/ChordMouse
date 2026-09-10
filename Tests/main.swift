@@ -77,7 +77,13 @@ do {
 do {
     let r = GestureRecognizer()
     _ = r.handle(.down(0), now: 0)
-    let result = r.handle(.move(21, 0), now: 0.04)
-    check(!result.consume && result.flush, "normal click-drag exits the chord wait and passes its current drag input through")
+    let result = r.handle(.up(0), now: 0.08)
+    check(result.consume && result.flush, "normal short click replays its matching mouse-up")
 }
-print("PASS: \(checks) extended gesture checks")
+do {
+    let r = GestureRecognizer()
+    _ = r.handle(.down(0), now: 0)
+    let result = r.handle(.move(21, 0), now: 0.04)
+    check(result.consume && result.flush, "normal click-drag replays its buffered down and drag input together")
+}
+print("PASS: \(checks) gesture checks")

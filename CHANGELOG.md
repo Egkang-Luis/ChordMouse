@@ -2,6 +2,11 @@
 
 [← Back to ChordMouse](README.md)
 
+## 0.2.2 — Reliable normal clicks
+
+- Replays a short normal click as one matching down/up pair instead of combining a replayed down event with the original up event.
+- Replays the first drag event with its matching mouse-down when a normal click becomes a drag.
+
 ## 0.2.1 — Configurable controls and click reliability
 
 - Added per-gesture action selection for drag, held-button click, repeated click, and middle-button scroll inputs.
